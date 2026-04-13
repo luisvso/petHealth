@@ -1,70 +1,149 @@
-🐾 PetHealth API
+<div align="center">
 
-O PetHealth é uma API robusta desenvolvida em .NET para o gerenciamento de clínicas veterinárias e pets. O sistema foca no acompanhamento do ciclo de vida vacinal dos animais, contando com um serviço inteligente de monitoramento em background para alertas de vacinação.
-🚀 Tecnologias Utilizadas
+# 🐾 PetHealth API
 
-    C# / .NET 8
+**Sistema inteligente para gerenciamento de clínicas veterinárias e ciclo vacinal de pets**
 
-    ASP.NET Core Web API
+![.NET](https://img.shields.io/badge/.NET_8-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 
-    Entity Framework Core (ORM)
-    
-    PostgreSQL (Banco de Dados Relacional)
-    
-    Worker Services (Processamento em segundo plano)
+</div>
 
-    Swagger (Documentação de API)
+---
 
-🛠️ Funcionalidades Principais
+## 📋 Sobre o Projeto
 
-    Gestão de Pets: CRUD completo de animais de estimação.
+O **PetHealth** é uma API RESTful desenvolvida em .NET 8 para gerenciamento completo de clínicas veterinárias. O sistema centraliza o controle de pets e vacinas, com destaque para um serviço de monitoramento em background que automaticamente identifica e alerta sobre vacinações pendentes nos próximos 30 dias.
 
-    Controle de Vacinas: Registro de aplicações e cálculo automático de próxima dose com base na duração.
+---
 
-    Monitoramento Automático: Um BackgroundService (Worker) que verifica diariamente quais pets precisam ser vacinados nos próximos 30 dias.
+## 🚀 Tecnologias
 
-    Sistema de Notificações: Serviço desacoplado para alertas aos tutores via logs de sistema (preparado para integração com SMTP).
+| Tecnologia | Descrição |
+|---|---|
+| C# / .NET 8 | Linguagem e framework principal |
+| ASP.NET Core Web API | Exposição dos endpoints REST |
+| Entity Framework Core | ORM para mapeamento objeto-relacional |
+| PostgreSQL | Banco de dados relacional |
+| Worker Services | Processamento em segundo plano |
+| Swagger / OAS 3.0 | Documentação interativa da API |
 
-🏗️ Arquitetura
+---
 
-O projeto foi estruturado seguindo boas práticas de organização:
+## ✨ Funcionalidades
 
-    Controllers: Exposição dos endpoints da API.
+- **Gestão de Pets** — CRUD completo de animais de estimação com vínculo ao tutor
+- **Controle de Vacinas** — Registro de aplicações com cálculo automático da data da próxima dose
+- **Monitoramento Automático** — `BackgroundService` que verifica diariamente pets com vacinação pendente nos próximos 30 dias
+- **Sistema de Alertas** — Serviço desacoplado de notificações via logs, preparado para integração com SMTP
 
-    Models: Representação das entidades do banco de dados.
+---
 
-    Services: Camada de lógica de negócio e serviços externos.
+## 📡 Endpoints
 
-    Workers: Tarefas agendadas em segundo plano.
+### 🐶 Pet — `/api/pets`
 
-    Data: Configurações de contexto do Entity Framework.
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/api/pets` | Cadastrar novo pet |
+| `GET` | `/api/pets` | Listar todos os pets |
+| `GET` | `/api/pets/{id}` | Buscar pet por ID |
+| `PUT` | `/api/pets/{id}` | Atualizar dados do pet |
+| `DELETE` | `/api/pets/{id}` | Remover pet |
+| `GET` | `/api/pets/vacinas/{id}` | Listar vacinas de um pet |
 
-🏁 Como Executar o Projeto
+### 💉 Vacina — `/api/vacina`
 
-    Clonar o repositório:
-    Bash
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/api/vacina` | Registrar nova vacina |
+| `GET` | `/api/vacina` | Listar todas as vacinas |
+| `GET` | `/api/vacina/{id}` | Buscar vacina por ID |
+| `PUT` | `/api/vacina/{id}` | Atualizar vacina |
+| `DELETE` | `/api/vacina/{id}` | Remover vacina |
+| `GET` | `/api/vacina/alertas` | Listar alertas de vacinação pendente |
 
-    git clone https://github.com/seu-usuario/PetHealth.git
+> A documentação interativa completa está disponível em `http://localhost:5111/swagger` após iniciar a aplicação.
 
-    Configurar o Banco de Dados:
-    Crie um arquivo .env na raiz do projeto baseado no .env.example:
-    Plaintext
+---
 
-    DB_CONNECTION_STRING=Host=localhost;Database=PetHealth;Username=postgres;Password=sua_senha
+## 🏗️ Arquitetura
 
-    Executar as Migrations:
-    Bash
+```
+PetHealth/
+├── Controllers/       # Exposição dos endpoints da API
+├── Models/            # Entidades do banco de dados
+├── Services/          # Lógica de negócio e serviços externos
+├── Workers/           # Tarefas agendadas em background
+├── Data/              # Configurações do DbContext (EF Core)
+└── .env.example       # Modelo de variáveis de ambiente
+```
 
-    dotnet ef database update
+---
 
-    Rodar a aplicação:
-    Bash
+## 🏁 Como Executar
 
-    dotnet run
+### Pré-requisitos
 
-    A API estará disponível em http://localhost:5111 (ou na porta configurada no seu launchSettings.json).
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
-📄 Documentação (Swagger)
+### 1. Clonar o repositório
 
-Com a aplicação rodando, acesse a interface do Swagger para testar os endpoints:
-http://localhost:5111/swagger
+```bash
+git clone https://github.com/seu-usuario/PetHealth.git
+cd PetHealth
+```
+
+### 2. Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
+
+```env
+DB_CONNECTION_STRING=Host=localhost;Database=PetHealth;Username=postgres;Password=sua_senha
+```
+
+### 3. Aplicar as migrations
+
+```bash
+dotnet ef database update
+```
+
+### 4. Rodar a aplicação
+
+```bash
+dotnet run
+```
+
+A API estará disponível em **http://localhost:5111**  
+A documentação Swagger em **http://localhost:5111/swagger**
+
+---
+
+## 📁 Variáveis de Ambiente
+
+| Variável | Descrição | Exemplo |
+|---|---|---|
+| `DB_CONNECTION_STRING` | String de conexão com o PostgreSQL | `Host=localhost;Database=PetHealth;...` |
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma _issue_ ou enviar um _pull request_.
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
+---
+
+<div align="center">
+
+Feito com ❤️ e ☕
+
+</div>
